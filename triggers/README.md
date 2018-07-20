@@ -1,0 +1,1 @@
+There are the triggers that directly interact with the commands.
