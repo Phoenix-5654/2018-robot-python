@@ -13,6 +13,8 @@ class MyRobot(CommandBasedRobot):
 
         Command.getRobot = lambda _: self
 
+        wpilib.CameraServer.launch()
+
         self.joystick = wpilib.Joystick(0)
 
         self.lr_motor = ctre.WPI_TalonSRX(1)
@@ -29,12 +31,12 @@ class MyRobot(CommandBasedRobot):
         self.drivetrain = drivetrain.Drivetrain(self.left, self.right,
                                                 self.drivetrain_solenoid)
 
-        self.l_gripper = wpilib.PWMVictorSPX(0)
-        self.r_gripper = wpilib.PWMVictorSPX(1)
+        self.l_gripper = wpilib.VictorSP(0)
+        self.r_gripper = wpilib.VictorSP(1)
 
         self.grippers = grippers.Grippers(self.l_gripper, self.r_gripper)
 
-        self.elevator_motor = wpilib.PWMVictorSPX(2)
+        self.elevator_motor = wpilib.VictorSP(2)
         self.elevator_top_switch = wpilib.DigitalInput(4)
         self.elevator_bot_switch = wpilib.DigitalInput(5)
 
