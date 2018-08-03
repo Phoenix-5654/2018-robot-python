@@ -105,3 +105,7 @@ venv.bak/
 
 # Robot unit tests
 tests/
+
+# Robot physics
+config.json
+physics.py
