@@ -2,6 +2,8 @@ from wpilib.command.subsystem import Subsystem
 
 
 class Handles(Subsystem):
+    CLOSE = 1
+    OPEN = 2
 
     def __init__(self, solenoid):
 
@@ -9,13 +11,11 @@ class Handles(Subsystem):
 
         self.solenoid = solenoid
 
-    def open(self):
-
-        self.solenoid.set(2)
-
     def close(self):
+        self.solenoid.set(self.CLOSE)
 
-        self.solenoid.set(1)
+    def open(self):
+        self.solenoid.set(self.OPEN)
 
     def state(self):
 

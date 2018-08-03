@@ -2,6 +2,8 @@ from wpilib.command.subsystem import Subsystem
 
 
 class Grippers(Subsystem):
+    MAX_SPEED = 0.7
+    MIN_SPEED = -MAX_SPEED
 
     def __init__(self, left_motor, right_motor):
 
@@ -15,13 +17,11 @@ class Grippers(Subsystem):
         self.left_motor.set(left_motor_speed)
         self.right_motor.set(right_motor_speed)
 
-    def intake(self):
-
-        self.set_motors(-0.7, 0.7)
-
     def exhaust(self):
+        self.set_motors(self.MIN_SPEED, self.MAX_SPEED)
 
-        self.set_motors(0.7, -0.7)
+    def intake(self):
+        self.set_motors(self.MAX_SPEED, self.MIN_SPEED)
 
     def stop(self):
 

@@ -1,3 +1,6 @@
+from wpilib.buttons.joystickbutton import JoystickButton
+from wpilib.joystick import Joystick
+
 from commands.drivetrainstate import DrivetrainState
 from commands.elevatordown import ElevatorDown
 from commands.elevatorup import ElevatorUp
@@ -8,10 +11,6 @@ from commands.handlesstate import HandlesState
 from commands.intake import GrippersIntake
 from commands.speedstate import SpeedState
 from commands.strengthstate import StrengthState
-
-from wpilib.buttons.joystickbutton import JoystickButton
-from wpilib.joystick import Joystick
-
 from triggers.pov import POVButton
 
 
@@ -20,10 +19,10 @@ def getJoystick():
     joystick = Joystick(0)
 
     trigger = JoystickButton(joystick, Joystick.ButtonType.kTrigger)
-    trigger.whileHeld(GrippersExhaust())
+    trigger.whileHeld(GrippersIntake())
 
     thumb = JoystickButton(joystick, Joystick.ButtonType.kTop)
-    thumb.whileHeld(GrippersIntake())
+    thumb.whileHeld(GrippersExhaust())
 
     POV_up = POVButton(joystick, 0)
     POV_down = POVButton(joystick, 180)

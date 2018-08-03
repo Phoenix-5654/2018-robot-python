@@ -1,16 +1,17 @@
 import ctre
 import wpilib
 from commandbased import CommandBasedRobot
-from wpilib.command import Command
+from wpilib.command import Command, Scheduler
 
 import oi
+from commands.autonomous import AutonomousProgram
+from commands.followjoystick import FollowJoystick
 from subsystems import drivetrain, elevator, grippers, handles
 
 
 class MyRobot(CommandBasedRobot):
 
     def robotInit(self):
-
         Command.getRobot = lambda _: self
 
         wpilib.CameraServer.launch()
@@ -28,8 +29,12 @@ class MyRobot(CommandBasedRobot):
 
         self.drivetrain_solenoid = wpilib.DoubleSolenoid(2, 3)
 
+        self.drivetrain_gyro = wpilib.AnalogGyro(1)
+
         self.drivetrain = drivetrain.Drivetrain(self.left, self.right,
-                                                self.drivetrain_solenoid)
+                                                self.drivetrain_solenoid,
+                                                self.drivetrain_gyro,
+                                                self.rf_motor)
 
         self.l_gripper = wpilib.VictorSP(0)
         self.r_gripper = wpilib.VictorSP(1)
@@ -48,8 +53,17 @@ class MyRobot(CommandBasedRobot):
 
         self.handles = handles.Handles(self.handles_solenoid)
 
+        self.autonomous = AutonomousProgram()
+
         self.josytick = oi.getJoystick()
 
+    def autonomousInit(self):
+        self.autonomous.start()
+
+        Scheduler.getInstance().run()
+
+    def teleopInit(self):
+        self.drivetrain.setDefaultCommand(FollowJoystick())
 
 if __name__ == '__main__':
     wpilib.run(MyRobot, physics_enabled=True)
