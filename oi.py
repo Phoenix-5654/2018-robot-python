@@ -15,6 +15,8 @@ from triggers.pov import POVButton
 
 
 def getJoystick():
+    """This function creates an instance of the joystick, and assigns commands
+       to the joystick buttons."""
 
     joystick = Joystick(0)
 
