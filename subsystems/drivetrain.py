@@ -11,24 +11,25 @@ class Drivetrain(PIDSubsystem):
 
     ENCODER_RES = 1024
 
-    DIST_TO_TICKS = WHL_CIRC / ENCODER_RES
-
     QUAD_MULTIPLIER = 4
 
     STRENGTH_GEAR_RATIO = 16.5
+
+    DIST_TO_TICKS = WHL_CIRC / (ENCODER_RES * QUAD_MULTIPLIER *
+                                STRENGTH_GEAR_RATIO)
 
     SPD_STATE = 1
     STR_STATE = 2
 
     TIMEOUT_MS = 30
 
-    MAX_SPEED = 0.4
+    MAX_SPEED = 0.5
     MIN_SPEED = -MAX_SPEED
 
     KP = 0.067
 
     def __init__(self, left, right, solenoid, gyro, encoding_motor):
-        super().__init__(0.001, 0, 0, name='Drivetrain')
+        super().__init__(0.002, 0, 0, name='Drivetrain')
 
         self.drive = wpilib.drive.DifferentialDrive(left, right)
         self.solenoid = solenoid
@@ -77,8 +78,7 @@ class Drivetrain(PIDSubsystem):
         :param distance_in_cm: the distance in cm to turn into encoder ticks
         :return: the same distance converted to encoder ticks
         """
-        return distance_in_cm / self.DIST_TO_TICKS * self.QUAD_MULTIPLIER * \
-               self.STRENGTH_GEAR_RATIO
+        return distance_in_cm / self.DIST_TO_TICKS
 
     def reset_encoder(self):
         """This function resets the robot encoder"""
